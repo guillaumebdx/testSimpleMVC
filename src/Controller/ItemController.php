@@ -31,7 +31,6 @@ class ItemController extends AbstractController
     {
         $itemManager = new ItemManager();
         $items = $itemManager->selectAll();
-
         return $this->twig->render('Item/index.html.twig', ['items' => $items]);
     }
 
@@ -48,7 +47,7 @@ class ItemController extends AbstractController
     public function show(int $id)
     {
         $itemManager = new ItemManager();
-        $item = $itemManager->selectOneById($id);
+        $item        = $itemManager->getEntityById($id);
 
         return $this->twig->render('Item/show.html.twig', ['item' => $item]);
     }

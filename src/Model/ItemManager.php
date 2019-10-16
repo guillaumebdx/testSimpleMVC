@@ -70,4 +70,16 @@ class ItemManager extends AbstractManager
 
         return $statement->execute();
     }
+    
+    /**
+     * 
+     * @param int $id
+     * @return Item
+     */
+    public function getEntityById(int $id) : Item
+    {
+        $itemFetch = $this->selectOneById($id);
+        $item      = new Item($itemFetch['id'], $itemFetch['title']);
+        return $item;
+    }
 }
