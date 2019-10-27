@@ -22,7 +22,7 @@ abstract class AbstractValidator
     protected function handleBetween(int $number, int $min, int $max, $fieldName)
     {
         if ($number < $min || $number > $max) {
-            $this->errorMessages[$fieldName] = 'Le champ ' . $fieldName . ' doit être compris entre ' . $min . 'et ' . $max;
+            $this->errorMessages[$fieldName] = $fieldName . ' doit être compris entre ' . $min . 'et ' . $max;
         }
     }
 
