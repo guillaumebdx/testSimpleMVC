@@ -10,6 +10,7 @@
 namespace App\Controller;
 
 use App\Model\ItemManager;
+use App\Service\ItemValidator;
 
 /**
  * Class ItemController
@@ -88,15 +89,22 @@ class ItemController extends AbstractController
     {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $itemManager = new ItemManager();
-            $item = [
-                'title' => $_POST['title'],
-            ];
-            $id = $itemManager->insert($item);
-            header('Location:/item/show/' . $id);
+            $validator = new ItemValidator($_POST);
+            $validator->checkAll();
+            if (null === $validator->getErrorMessages()) {
+                $postData = $validator->getPostData();
+                $itemManager = new ItemManager();
+                $item = [
+                    'title' => $postData['title'],
+                ];
+                $id = $itemManager->insert($item);
+                header('Location:/item/show/' . $id);
+            }
         }
-
-        return $this->twig->render('Item/add.html.twig');
+        return $this->twig->render('Item/add.html.twig', [
+            'errorMessages' => isset($validator) ? $validator->getErrorMessages() : null,
+            
+        ]);
     }
 
 
